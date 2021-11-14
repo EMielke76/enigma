@@ -1,14 +1,8 @@
-require './keyable'
-require './dateable'
-require './enigma'
 require 'date'
 
 module Encryptable
-  include Keyable
-  include Dateable
-
   def valid_chars
-    enigma.valid_chars
+    ('a'..'z').to_a.push(' ')
   end
 
   def offset_value(date)

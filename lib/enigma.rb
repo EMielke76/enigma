@@ -9,25 +9,15 @@ class Enigma
   include Encryptable
   attr_reader :message,
               :key,
-              :date,
-              :valid_chars
+              :date
 
   def initialize
     @message    = ''
     @key        = ''
     @date       = ''
-    @valid_chars = ('a'..'z').to_a.push(' ')
   end
 
-  def key_maker
-    random_key
-  end
-
-  def time_lord
-    default_date
-  end
-
-  def encrypt(message, key = key_maker, date = time_lord)
+  def encrypt(message, key = random_key, date = default_date)
     @message = message
     @key = key
     @date = date
