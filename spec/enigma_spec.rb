@@ -22,14 +22,14 @@ RSpec.describe Enigma do
 
     it 'has attributes' do
 
-      expect(enigma.message).to eq("")
-      expect(enigma.key).to eq("")
-      expect(enigma.date).to eq("")
+      expect(enigma.message).to eq('')
+      expect(enigma.key).to eq('')
+      expect(enigma.date).to eq('')
     end
 
     it 'can create a list of valid characters' do
       expected = ('a'..'z').to_a.push(' ')
-      expect(enigma.char_array).to eq(expected)
+      expect(enigma.valid_chars).to eq(expected)
     end
   end
 
@@ -55,27 +55,62 @@ RSpec.describe Enigma do
 
       expect(enigma.the_shift(offset, key)).to eq([3, 27, 73, 20])
     end
+  end
 
+  describe '#Cypher' do
+    context 'accepts a message and returns it encrypted' do
+      let(:long_test) {"this is longer"}
+      let(:char_test) {"h2ll% .or{_"}
+      let(:all_invalid) {"12{$56&*}_"}
+      let(:space_cadet) {"   "}
+      let(:shift) {[3, 27, 73, 20]}
+
+      it 'counts spaces as valid characters' do
+
+        expect(enigma.cypher(space_cadet, shift)).to eq("c s")
+      end
+
+      it 'can return an encrypted message' do
+
+        expect(enigma.cypher(message, shift)).to eq("keder ohulw")
+      end
+
+      it 'returns strings of equal length as the string given' do
+
+        expect(enigma.cypher(message, shift).length).to eq(11)
+        expect(enigma.cypher(long_test, shift).length).to eq(14)
+      end
+
+      it 'skips invalid characters' do
+
+        expect(enigma.cypher(char_test, shift)).to eq("k2ld%t.rr{_")
+        expect(enigma.cypher(all_invalid, shift)).to eq("12{$56&*}_")
+      end
+    end
   end
 
   describe '#Encrypt' do
-    context 'integration/unit test for dateable/keyable modules' do
-      xit 'can provide default key and date' do
+    context 'integration test for dateable/keyable modules' do
 
+      it 'can take/set message, key, and date arguments' do
+        enigma.encrypt(message, key, date)
 
-        #require "pry"; binding.pry
-
-        expect(enigma.encrypt(message, key, date)).to eq("Hello World")
-        expect(abwehr_2.key.length).to eq(5)
-        expect(abwehr_2.key.class).to eq(String)
-        expect(abwehr_2.date).to eq(today.strftime("%d%m%Y"))
+        expect(enigma.message).to eq("Hello World")
+        expect(enigma.key).to eq("02715")
+        expect(enigma.date).to eq("040895")
       end
 
-      xit 'can provide a default date' do
+      it 'can provide default key' do
+        enigma.encrypt(message)
 
-        expect(abwehr_1.message).to eq("Hello World")
-        expect(abwehr_1.key).to eq("02715")
-        expect(abwehr_1.date).to eq(today.strftime("%d%m%Y"))
+        expect(enigma.key.length).to eq(5)
+        expect(enigma.key.class).to eq(String)
+      end
+
+      it 'can provide a default date' do
+        enigma.encrypt(message, key)
+
+        expect(enigma.date).to eq(today.strftime("%d%m%Y"))
       end
     end
   end
