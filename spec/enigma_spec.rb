@@ -5,14 +5,16 @@ require './lib/encryptable'
 
 
 RSpec.describe Enigma do
-  let(:message) {"Hello World"}
-  let(:key)     {"02715"}
-  let(:date)    {"040895"}
-  let(:offset)  {"1025"}
+  let(:enigma) {Enigma.new}
 
   let(:today)   {Date.today}
 
-  let(:enigma) {Enigma.new}
+  let(:message) {"Hello World"}
+  let(:key)     {"02715"}
+  let(:date)    {"040895"}
+
+  let(:offset)  {"1025"}
+  let(:shift) {[3, 27, 73, 20]}
 
   describe 'Enigma' do
     it 'exists' do
@@ -45,46 +47,48 @@ RSpec.describe Enigma do
       expect(enigma.time_lord.length).to eq(8)
       expect(enigma.time_lord).to be_a(String)
     end
-
-    it 'can calculate an #offset_value' do
-
-      expect(enigma.offset_value(date)).to eq("1025")
-    end
-
-    it 'can generate #the_shift for the message' do
-
-      expect(enigma.the_shift(offset, key)).to eq([3, 27, 73, 20])
-    end
   end
 
-  describe '#Cypher' do
-    context 'accepts a message and returns it encrypted' do
+  describe 'Encryptable' do
+    include Encryptable
+    context 'unit testing for Encryptable module' do
+      it 'can calculate an #offset_value' do
+
+        expect(offset_value(date)).to eq("1025")
+      end
+
+      it 'can generate #the_shift for the message' do
+
+        expect(the_shift(offset, key)).to eq([3, 27, 73, 20])
+      end
+    end
+
+    context '#Cypher' do
       let(:long_test) {"this is longer"}
       let(:char_test) {"h2ll% .or{_"}
       let(:all_invalid) {"12{$56&*}_"}
       let(:space_cadet) {"   "}
-      let(:shift) {[3, 27, 73, 20]}
-
+      
       it 'counts spaces as valid characters' do
 
-        expect(enigma.cypher(space_cadet, shift)).to eq("c s")
+        expect(cypher(space_cadet, shift)).to eq("c s")
       end
 
       it 'can return an encrypted message' do
 
-        expect(enigma.cypher(message, shift)).to eq("keder ohulw")
+        expect(cypher(message, shift)).to eq("keder ohulw")
       end
 
       it 'returns strings of equal length as the string given' do
 
-        expect(enigma.cypher(message, shift).length).to eq(11)
-        expect(enigma.cypher(long_test, shift).length).to eq(14)
+        expect(cypher(message, shift).length).to eq(11)
+        expect(cypher(long_test, shift).length).to eq(14)
       end
 
       it 'skips invalid characters' do
 
-        expect(enigma.cypher(char_test, shift)).to eq("k2ld%t.rr{_")
-        expect(enigma.cypher(all_invalid, shift)).to eq("12{$56&*}_")
+        expect(cypher(char_test, shift)).to eq("k2ld%t.rr{_")
+        expect(cypher(all_invalid, shift)).to eq("12{$56&*}_")
       end
     end
   end
