@@ -11,6 +11,5 @@ module Encryptable
   end
 
   def encrypt(message, key = random_key, date = default_date)
-
-
+  end
 end
