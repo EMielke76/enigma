@@ -28,30 +28,17 @@ RSpec.describe Enigma do
       expect(enigma.key).to eq('')
       expect(enigma.date).to eq('')
     end
-
-    it 'can create a list of valid characters' do
-      expected = ('a'..'z').to_a.push(' ')
-      expect(enigma.valid_chars).to eq(expected)
-    end
-  end
-
-  describe 'Enigma Class Methods' do
-    it '#key_maker can create a random key' do
-
-      expect(enigma.key_maker.length).to eq(5)
-      expect(enigma.key_maker).to be_a(String)
-    end
-
-    it '#time_lord can create a date' do
-
-      expect(enigma.time_lord.length).to eq(8)
-      expect(enigma.time_lord).to be_a(String)
-    end
   end
 
   describe 'Encryptable' do
     include Encryptable
     context 'unit testing for Encryptable module' do
+      it 'can provide an array of valid characters' do
+        expected = ('a'..'z').to_a.push(' ')
+
+        expect(valid_chars).to eq(expected)
+      end
+
       it 'can calculate an #offset_value' do
 
         expect(offset_value(date)).to eq("1025")
@@ -68,7 +55,7 @@ RSpec.describe Enigma do
       let(:char_test) {"h2ll% .or{_"}
       let(:all_invalid) {"12{$56&*}_"}
       let(:space_cadet) {"   "}
-      
+
       it 'counts spaces as valid characters' do
 
         expect(cypher(space_cadet, shift)).to eq("c s")
@@ -94,7 +81,7 @@ RSpec.describe Enigma do
   end
 
   describe '#Encrypt' do
-    context 'integration test for dateable/keyable modules' do
+    context 'integration test for dateable/keable modules' do
 
       it 'can take/set message, key, and date arguments' do
         enigma.encrypt(message, key, date)
