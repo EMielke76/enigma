@@ -34,7 +34,6 @@ module Encryptable
   end
 
   def decypher(message, un_shift)
-
     decrypted_message = ''
     down_boy= message.downcase
     down_boy.each_char do |char|
