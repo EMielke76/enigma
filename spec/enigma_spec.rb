@@ -51,66 +51,70 @@ RSpec.describe Enigma do
     end
 
     describe '#Cypher' do
-      let(:shift)   {[3, 27, 73, 20]}
-      let(:long_test)   {"this is longer"}
-      let(:char_test)   {"h2ll% .or{_"}
-      let(:all_invalid) {"12{$56&*}_"}
-      let(:space_cadet) {"   "}
+      context 'unit testing for #cypher' do
+        let(:shift)   {[3, 27, 73, 20]}
+        let(:long_test)   {"this is longer"}
+        let(:char_test)   {"h2ll% .or{_"}
+        let(:all_invalid) {"12{$56&*}_"}
+        let(:space_cadet) {"   "}
 
-      it 'counts spaces as valid characters' do
+        it 'counts spaces as valid characters' do
 
-        expect(cypher(space_cadet, shift)).to eq("c s")
-      end
+          expect(cypher(space_cadet, shift)).to eq("c s")
+        end
 
-      it 'can return an encrypted message' do
+        it 'can return an encrypted message' do
 
-        expect(cypher(message, shift)).to eq("keder ohulw")
-      end
+          expect(cypher(message, shift)).to eq("keder ohulw")
+        end
 
-      it 'returns strings of equal length as the string given' do
+        it 'returns strings of equal length as the string given' do
 
-        expect(cypher(message, shift).length).to eq(11)
-        expect(cypher(long_test, shift).length).to eq(14)
-      end
+          expect(cypher(message, shift).length).to eq(11)
+          expect(cypher(long_test, shift).length).to eq(14)
+        end
 
-      it 'skips invalid characters' do
-        expect(cypher(char_test, shift)).to eq("k2ld%t.rr{_")
-        expect(cypher(all_invalid, shift)).to eq("12{$56&*}_")
+        it 'skips invalid characters' do
+          expect(cypher(char_test, shift)).to eq("k2ld%t.rr{_")
+          expect(cypher(all_invalid, shift)).to eq("12{$56&*}_")
+        end
       end
     end
 
-    describe '#Decypher' do
-      let(:shift_2)   {[3, 27, 73, 20]}
-      let(:message_crypted)     {"keder ohulw"}
-      let(:char_test_crypted)   {"k2ld%t.rr{_"}
-      let(:all_invalid)         {"12{$56&*}_"}
-      let(:space_cadet_crypted) {"c s"}
+    describe '#decypher' do
+      context 'unit tests for #decypher' do
+        let(:shift_2)   {[3, 27, 73, 20]}
+        let(:message_crypted)     {"keder ohulw"}
+        let(:char_test_crypted)   {"k2ld%t.rr{_"}
+        let(:all_invalid)         {"12{$56&*}_"}
+        let(:space_cadet_crypted) {"c s"}
 
-      it 'counts spaces as valid characters' do
+        it 'counts spaces as valid characters' do
 
-        expect(decypher(space_cadet_crypted, shift_2)).to eq("   ")
-      end
+          expect(decypher(space_cadet_crypted, shift_2)).to eq("   ")
+        end
 
-      it 'can return an encrypted message' do
+        it 'can return an encrypted message' do
 
-        expect(decypher(message_crypted, shift_2)).to eq("hello world")
-      end
+          expect(decypher(message_crypted, shift_2)).to eq("hello world")
+        end
 
-      it 'returns strings of equal length as the string given' do
+        it 'returns strings of equal length as the string given' do
 
-        expect(decypher(message_crypted, shift_2).length).to eq(11)
-      end
+          expect(decypher(message_crypted, shift_2).length).to eq(11)
+        end
 
-      it 'skips invalid characters' do
+        it 'skips invalid characters' do
 
-        expect(decypher(char_test_crypted, shift_2)).to eq("h2ll% .or{_")
-        expect(decypher(all_invalid, shift_2)).to eq("12{$56&*}_")
+          expect(decypher(char_test_crypted, shift_2)).to eq("h2ll% .or{_")
+          expect(decypher(all_invalid, shift_2)).to eq("12{$56&*}_")
+        end
       end
     end
   end
 
-  describe '#Encrypt' do
-    context 'integration test for dateable/keable modules' do
+  describe 'Enigma class method #encrypt' do
+    context 'integration test for dateable/keable/encryptable modules' do
 
       it 'can take/set message, key, and date arguments' do
         enigma.encrypt(message, key, date)
@@ -137,6 +141,41 @@ RSpec.describe Enigma do
       it 'returns a hash containing the encrypted text, the key, and the date used' do
         expected = {
           encryption: "keder ohulw",
+          key: "02715",
+          date: "040895"
+        }
+
+        expect(enigma.encrypt(message, key, date)).to eq(expected)
+      end
+    end
+  end
+
+  describe 'Enigma class method #decrypt' do
+    context 'integration test for dateable/keable/encryptable modules' do
+
+      it 'can take/set message, key, and date arguments' do
+        enigma.decrypt(message, key, date)
+
+        expect(enigma.message).to eq("keder ohulw")
+        expect(enigma.key).to eq("02715")
+        expect(enigma.date).to eq("040895")
+      end
+
+      it 'can provide the key used in encryption' do
+        enigma.encrypt(message)
+
+        expect(enigma.key).to eq("02715")
+      end
+
+      it 'can provide the date used in encryption' do
+        enigma.encrypt(message, key)
+
+        expect(enigma.date).to eq("040895")
+      end
+
+      it 'returns a hash containing the encrypted text, the key, and the date used' do
+        expected = {
+          decryption: "hello world",
           key: "02715",
           date: "040895"
         }
