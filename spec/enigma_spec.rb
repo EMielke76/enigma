@@ -88,23 +88,23 @@ RSpec.describe Enigma do
 
       it 'counts spaces as valid characters' do
 
-        expect(enigma.decypher(space_cadet_crypted, shift_2)).to eq("   ")
+        expect(decypher(space_cadet_crypted, shift_2)).to eq("   ")
       end
 
       it 'can return an encrypted message' do
 
-        expect(enigma.decypher(message_crypted, shift_2)).to eq("hello world")
+        expect(decypher(message_crypted, shift_2)).to eq("hello world")
       end
 
       it 'returns strings of equal length as the string given' do
 
-        expect(enigma.decypher(message_crypted, shift_2).length).to eq(11)
+        expect(decypher(message_crypted, shift_2).length).to eq(11)
       end
 
       it 'skips invalid characters' do
 
-        expect(enigma.decypher(char_test_crypted, shift_2)).to eq("h2ll% .or{_")
-        expect(enigma.decypher(all_invalid, shift_2)).to eq("12{$56&*}_")
+        expect(decypher(char_test_crypted, shift_2)).to eq("h2ll% .or{_")
+        expect(decypher(all_invalid, shift_2)).to eq("12{$56&*}_")
       end
     end
   end
