@@ -130,7 +130,18 @@ RSpec.describe Enigma do
       it 'can provide a default date' do
         enigma.encrypt(message, key)
 
-        expect(enigma.date).to eq(today.strftime("%d%m%Y"))
+        expect(enigma.date).to eq(today.strftime("%d%m%y"))
+        expect(enigma.date.length).to eq(6)
+      end
+
+      it 'returns a hash containing the encrypted text, the key, and the date used' do
+        expected = {
+          encryption: "keder ohulw",
+          key: "02715",
+          date: "040895"
+        }
+
+        expect(enigma.encrypt(message, key, date)).to eq(expected)
       end
     end
   end
