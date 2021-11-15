@@ -23,11 +23,10 @@ class Enigma
     @message = message
     @key = key
     @date = date
+    offset = offset_value(@date)
+    shift = the_shift(offset, @key)
     puts "Created 'encrypted.txt' with the key #{@key} and date #{@date}"
-    encrytped_hash = {
-      encryption: cypher(@message, the_shift(offset_value(@date), @key)),
-      key: @key,
-      date: @date
-    }
+    encrytped_hash = {encryption: cypher(@message, shift), key: @key, date: @date}
   end
+
 end
