@@ -162,13 +162,13 @@ RSpec.describe Enigma do
       end
 
       it 'can provide the key used in encryption' do
-        enigma.encrypt(message)
+        enigma.decrypt(message)
 
         expect(enigma.key).to eq("02715")
       end
 
       it 'can provide the date used in encryption' do
-        enigma.encrypt(message, key)
+        enigma.decrypt(message, key)
 
         expect(enigma.date).to eq("040895")
       end
@@ -180,7 +180,7 @@ RSpec.describe Enigma do
           date: "040895"
         }
 
-        expect(enigma.encrypt(message, key, date)).to eq(expected)
+        expect(enigma.decrypt(message, key, date)).to eq(expected)
       end
     end
   end
