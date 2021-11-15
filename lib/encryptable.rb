@@ -18,6 +18,11 @@ module Encryptable
     shift_values
   end
 
+  def shift(key, date)
+    offset = offset_value(date)
+    shift = the_shift(offset, key)
+  end
+
   def cypher(message, shift)
     encrypted_message = ''
     down_boy = message.downcase
