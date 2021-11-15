@@ -5,7 +5,7 @@ require './lib/encryptable'
 
 
 RSpec.describe Enigma do
-  let(:enigma) {Enigma.new}
+  let(:enigma)  {Enigma.new}
 
   let(:today)   {Date.today}
 
@@ -14,7 +14,7 @@ RSpec.describe Enigma do
   let(:date)    {"040895"}
 
   let(:offset)  {"1025"}
-  let(:shift) {[3, 27, 73, 20]}
+
 
   describe 'Enigma' do
     it 'exists' do
@@ -30,7 +30,7 @@ RSpec.describe Enigma do
     end
   end
 
-  describe 'Encryptable' do
+  describe 'Encryptable module' do
     include Encryptable
     context 'unit testing for Encryptable module' do
       it 'can provide an array of valid characters' do
@@ -50,9 +50,10 @@ RSpec.describe Enigma do
       end
     end
 
-    context '#Cypher' do
-      let(:long_test) {"this is longer"}
-      let(:char_test) {"h2ll% .or{_"}
+    describe '#Cypher' do
+      let(:shift)   {[3, 27, 73, 20]}
+      let(:long_test)   {"this is longer"}
+      let(:char_test)   {"h2ll% .or{_"}
       let(:all_invalid) {"12{$56&*}_"}
       let(:space_cadet) {"   "}
 
@@ -73,9 +74,37 @@ RSpec.describe Enigma do
       end
 
       it 'skips invalid characters' do
-
         expect(cypher(char_test, shift)).to eq("k2ld%t.rr{_")
         expect(cypher(all_invalid, shift)).to eq("12{$56&*}_")
+      end
+    end
+
+    describe '#Decypher' do
+      let(:shift_2)   {[3, 27, 73, 20]}
+      let(:message_crypted)     {"keder ohulw"}
+      let(:char_test_crypted)   {"k2ld%t.rr{_"}
+      let(:all_invalid)         {"12{$56&*}_"}
+      let(:space_cadet_crypted) {"c s"}
+
+      it 'counts spaces as valid characters' do
+
+        expect(enigma.decypher(space_cadet_crypted, shift_2)).to eq("   ")
+      end
+
+      it 'can return an encrypted message' do
+
+        expect(enigma.decypher(message_crypted, shift_2)).to eq("hello world")
+      end
+
+      it 'returns strings of equal length as the string given' do
+
+        expect(enigma.decypher(message_crypted, shift_2).length).to eq(11)
+      end
+
+      it 'skips invalid characters' do
+
+        expect(enigma.decypher(char_test_crypted, shift_2)).to eq("h2ll% .or{_")
+        expect(enigma.decypher(all_invalid, shift_2)).to eq("12{$56&*}_")
       end
     end
   end
