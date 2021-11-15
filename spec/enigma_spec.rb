@@ -27,6 +27,8 @@ RSpec.describe Enigma do
       expect(enigma.message).to eq('')
       expect(enigma.key).to eq('')
       expect(enigma.date).to eq('')
+      expect(enigma.encrypted_data).to eq(nil)
+      expect(enigma.decrypted_data).to eq(nil)
     end
   end
 
@@ -152,23 +154,25 @@ RSpec.describe Enigma do
 
   describe 'Enigma class method #decrypt' do
     context 'integration test for dateable/keable/encryptable modules' do
-
+      let(:message_crypted)     {"keder ohulw"}
       it 'can take/set message, key, and date arguments' do
-        enigma.decrypt(message, key, date)
+        enigma.decrypt(message_crypted, key, date)
 
         expect(enigma.message).to eq("keder ohulw")
         expect(enigma.key).to eq("02715")
         expect(enigma.date).to eq("040895")
       end
 
-      it 'can provide the key used in encryption' do
-        enigma.decrypt(message)
+      it 'can provide the key used in encryption if not given' do
+        enigma.encrypt(message, key)
+        enigma.decrypt(message_crypted)
 
         expect(enigma.key).to eq("02715")
       end
 
-      it 'can provide the date used in encryption' do
-        enigma.decrypt(message, key)
+      it 'can provide the date used in encryption if not given' do
+        enigma.encrypt(message, key, date)
+        enigma.decrypt(message_crypted, key)
 
         expect(enigma.date).to eq("040895")
       end
@@ -180,7 +184,7 @@ RSpec.describe Enigma do
           date: "040895"
         }
 
-        expect(enigma.decrypt(message, key, date)).to eq(expected)
+        expect(enigma.decrypt(message_crypted, key, date)).to eq(expected)
       end
     end
   end
