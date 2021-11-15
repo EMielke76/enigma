@@ -25,8 +25,7 @@ module Encryptable
 
   def cypher(message, shift)
     encrypted_message = ''
-    down_boy = message.downcase
-    down_boy.each_char do |char|
+    message.each_char do |char|
       if valid_chars.include?(char) == false
         encrypted_message.concat(char)
       else
@@ -40,8 +39,7 @@ module Encryptable
 
   def decypher(message, un_shift)
     decrypted_message = ''
-    down_boy= message.downcase
-    down_boy.each_char do |char|
+    message.each_char do |char|
       if valid_chars.include?(char) == false
         decrypted_message.concat(char)
       else

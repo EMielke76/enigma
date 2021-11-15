@@ -9,7 +9,7 @@ RSpec.describe Enigma do
 
   let(:today)   {Date.today}
 
-  let(:message) {"Hello World"}
+  let(:message) {"hello world"}
   let(:key)     {"02715"}
   let(:date)    {"040895"}
 
@@ -20,15 +20,6 @@ RSpec.describe Enigma do
     it 'exists' do
 
       expect(enigma).to be_a(Enigma)
-    end
-
-    it 'has attributes' do
-
-      expect(enigma.message).to eq('')
-      expect(enigma.key).to eq('')
-      expect(enigma.date).to eq('')
-      expect(enigma.encrypted_data).to eq(nil)
-      expect(enigma.decrypted_data).to eq(nil)
     end
   end
 
@@ -121,7 +112,7 @@ RSpec.describe Enigma do
       it 'can take/set message, key, and date arguments' do
         enigma.encrypt(message, key, date)
 
-        expect(enigma.message).to eq("Hello World")
+        expect(enigma.message).to eq("hello world")
         expect(enigma.key).to eq("02715")
         expect(enigma.date).to eq("040895")
       end
