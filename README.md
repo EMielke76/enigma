@@ -10,7 +10,7 @@
 **Above Expectations**
 - 4 modules were used for this project
 - Each module encapsulates one portion of functionality within the program, and only one portion.
-- Modules seemed like the logical choice over classes due to there being no need for any classes to hold state/attributes. A collection of methods that could be tested, then shared to the various parts of the program that needed them seemed like the logical way to ensure SRP were adhered to, as well as adding a layer of abstraction to the program.
+- Modules seemed like the logical choice over classes due to there being no need for any classes to hold state/attributes. A collection of methods that could be tested, then shared to the various parts of the program that needed them seemed like the logical way to ensure SRP was adhered to, as well as adding a layer of abstraction to the program.
 - As I only had one class, Enigma, there was no need to implement/use inheritance. No classes needed to inherit anything from Enigma, instead I chose to create mixins and use them liberally.
 
 ###Ruby Conventions and Mechanics

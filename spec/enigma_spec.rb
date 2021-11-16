@@ -87,7 +87,7 @@ RSpec.describe Enigma do
           expect(decypher(space_cadet_crypted, shift_2)).to eq("   ")
         end
 
-        it 'can return an encrypted message' do
+        it 'can return an decrypted message' do
 
           expect(decypher(message_crypted, shift_2)).to eq("hello world")
         end
@@ -107,8 +107,9 @@ RSpec.describe Enigma do
   end
 
   describe 'Enigma class method #encrypt' do
-    context 'integration test for dateable/keable/encryptable modules' do
-
+    context 'integration test for dateable/keyable/encryptable modules' do
+      include Keyable
+      include Dateable
       it 'can take/set message, key, and date arguments' do
         enigma.encrypt(message, key, date)
 
@@ -120,6 +121,8 @@ RSpec.describe Enigma do
       it 'can provide default key' do
         enigma.encrypt(message)
 
+        expect(random_key.length).to eq(5)
+        expect(random_key.class).to eq(String)
         expect(enigma.key.length).to eq(5)
         expect(enigma.key.class).to eq(String)
       end
@@ -127,6 +130,7 @@ RSpec.describe Enigma do
       it 'can provide a default date' do
         enigma.encrypt(message, key)
 
+        expect(default_date).to eq(today.strftime("%d%m%y"))
         expect(enigma.date).to eq(today.strftime("%d%m%y"))
         expect(enigma.date.length).to eq(6)
       end
