@@ -21,7 +21,6 @@ class Enigma
     @key     = key
     @date    = date
     shift = shift(@key, @date)
-    puts "Created 'encrypted.txt' with the key #{@key} and date #{@date}"
     @encrypted_data = {encryption: cypher(@message, shift), key: @key, date: @date}
   end
 
@@ -30,7 +29,6 @@ class Enigma
     @key     = key
     @date    = date
     shift = shift(key, date)
-    puts "Created 'decrypted.txt' with the key #{@key} and date #{@date}"
     @decrypted_data = {decryption: decypher(@message, shift), key: @key, date: @date}
   end
 end

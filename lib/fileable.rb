@@ -17,6 +17,7 @@ module Fileable
     encrypted = enigma.encrypt((message.chomp))
     data.write(encrypted[:encryption])
     data.close
+    puts "Created '#{data.path}' with the key #{encrypted[:key]} and date #{encrypted[:date]}"
   end
 
   def decrypt(file, data, key, date)
@@ -26,5 +27,6 @@ module Fileable
     decrypted = enigma.decrypt((message.chomp), key, date)
     data.write(decrypted[:decryption])
     data.close
+    puts "Created '#{data.path}' with the key #{decrypted[:key]} and date #{decrypted[:date]}"
   end
 end
